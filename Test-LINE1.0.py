@@ -114,7 +114,7 @@ def plot_advanced_chart(data):
     fig.update_yaxes(title_text="MACD", row=4, col=1)
     st.plotly_chart(fig, use_container_width=True)
 
-st.title('Wyckoff Phase and ZFScore Analysis App')
+st.title('Enchanted Equities')
 ticker = st.text_input('Enter the stock ticker symbol (e.g., AAPL):', 'AAPL')
 start_date = st.date_input('Start date', pd.to_datetime('2020-01-01'))
 end_date = st.date_input('End date', pd.to_datetime('2023-01-01'))
