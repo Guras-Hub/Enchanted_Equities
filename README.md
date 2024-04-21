@@ -55,8 +55,8 @@ We encourage contributions from the community, whether they are feature requests
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
 ## Authors
-- **Marco** - "Financial Mathematics"
-- **Domenico** - "Data Scientist"
+- **Marco** - **Financial Mathematics**
+- **Domenico** - **Data Scientist**
 
 ## Acknowledgements
 - [Pandas](https://pandas.pydata.org/) and [NumPy](http://numpy.org/) for data manipulation
