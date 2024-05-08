@@ -81,6 +81,26 @@ def add_technical_indicators(data):
 
     return data
 
+def calculate_transactions(data, budget, initial_shares=0):
+    shares_owned = initial_shares
+    transactions = []
+
+    for index, row in data.iterrows():
+        if row['Signal'] == 'Buy' and budget >= row['Close']:
+            shares_to_buy = budget // row['Close']
+            shares_owned += shares_to_buy
+            budget -= shares_to_buy * row['Close']
+            transactions.append((index, 'Buy', shares_to_buy, row['Close'], shares_owned, budget))
+
+        elif row['Signal'] == 'Sell' and shares_owned > 0:
+            shares_to_sell = shares_owned  # Decide to sell all or some
+            shares_owned -= shares_to_sell
+            budget += shares_to_sell * row['Close']
+            transactions.append((index, 'Sell', shares_to_sell, row['Close'], shares_owned, budget))
+
+    transactions_df = pd.DataFrame(transactions, columns=['Date', 'Type', 'Quantity', 'Price', 'Shares Owned', 'Budget Left'])
+    return transactions_df, shares_owned, budget
+
 def clean_data(data):
     # Interpola prima per approssimare i valori mancanti
     data.interpolate(method='linear', inplace=True)
@@ -114,22 +134,27 @@ def plot_advanced_chart(data):
     fig.update_yaxes(title_text="MACD", row=4, col=1)
     st.plotly_chart(fig, use_container_width=True)
 
-st.title('Enchanted Equities')
+st.title('Wyckoff Phase and ZFScore Analysis App')
 ticker = st.text_input('Enter the stock ticker symbol (e.g., AAPL):', 'AAPL')
 start_date = st.date_input('Start date', pd.to_datetime('2020-01-01'))
 end_date = st.date_input('End date', pd.to_datetime('2023-01-01'))
+budget = st.number_input('Enter your budget for stock purchase:', value=1000)
+initial_shares = st.number_input('Enter initial shares owned:', value=0)
 
-if st.button('Analyze'):
+if st.button('Analyze and Trade'):
     data = yf.download(ticker, start=start_date, end=end_date)
-    data.index = pd.to_datetime(data.index)  # Assicurati che l'indice sia datetime
-    data.index = data.index.date  # Rimuovi l'ora, modo corretto di assegnazione
+    data.index = pd.to_datetime(data.index)
+    data.index = data.index.date
     data = data[['Open', 'High', 'Low', 'Close', 'Volume']]
     data.dropna(inplace=True)
     result = generate_signals(data)
-    st.write(result[['Close', 'Volume', 'ZFScore', 'Phase', 'Signal']])
-    st.write('Filtered Signals:', result[result['Signal'] != 'Hold'][['Close', 'ZFScore', 'Phase', 'Signal']])
-    plot_candlestick(data)
 
+    # Execute trades based on signals
+    transaction_log, final_shares, final_budget = calculate_transactions(result, budget, initial_shares)
+    st.write(transaction_log)
+    st.write(f"Final shares owned: {final_shares}, Final budget: {final_budget}")
+    plot_candlestick(data)
+        
 if st.button('Analyze PRO'):
     data_pro = yf.download(ticker, start=start_date, end=end_date)
     data_pro.index = pd.to_datetime(data_pro.index)
