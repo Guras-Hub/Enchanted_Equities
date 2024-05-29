@@ -1,4 +1,4 @@
-# Enchanted Equities
+# Enchanted Equities 🌟
 
 ## Introduction
 **Enchanted Equities** is an advanced analytical platform that applies computational finance and data science techniques to decode the stock market's complex behaviors. This tool integrates the principles of Richard Wyckoff’s method with modern statistical and machine learning algorithms to provide predictive insights into market trends.
@@ -17,6 +17,12 @@ The application computes several technical indicators to supplement the Wyckoff 
 - **MACD (Moving Average Convergence Divergence)**: A trend-following momentum indicator that shows the relationship between two moving averages of a security’s price.
 - **RSI (Relative Strength Index)**: A momentum oscillator that measures the speed and change of price movements.
 - **OBV (On-Balance Volume)**: Uses volume flow to predict changes in stock price.
+- **Stochastic Oscillator, ATR, and MFI:**: These indicators provide additional insights into market momentum and volatility.
+
+## Scripts and Functionality
+Enchanted Equities utilizes two main Python scripts to analyze stock market data:
+  1. **Signal Detection Script (Test-Line2.py)**: This script generates buy and sell signals based on the Wyckoff phases and other technical indicators. It is designed for traders looking to make quick decisions on stock transactions. 📈📉.
+  2. **Advanced Analysis Script (Test-Analyze-PRO.py)**: Offers a more detailed analysis, featuring a comprehensive range of technical indicators. This script includes advanced charting capabilities and allows users to download the analyzed data as a CSV file for further analysis or record-keeping. 📊📁
 
 ## System Architecture
 
@@ -41,6 +47,7 @@ Data is sourced live from financial markets using the `yfinance` API, which prov
 - **Interactive Dashboards**: Customize views and charts to focus on specific data aspects.
 - **Real-Time Data Processing**: Analyze live data feeds as the market fluctuates.
 - **Alert System**: Get notifications for significant market movements based on set thresholds.
+- **Data Export**: Ability to download analytical results as CSV files, enhancing usability for further offline analysis.
 
 ## Contributing
 We encourage contributions from the community, whether they are feature requests, improvements, or bug fixes. Please use the standard Git workflows for contributions.
